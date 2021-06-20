@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Image;
-use App\Models\Post;
+use Naxon\UrlUploadedFile\UrlUploadedFile;
 use App\Models\Scrap;
 use duongdat\phpSimple\HtmlDomParser;
 
@@ -42,19 +42,28 @@ class PostController extends Controller
         }
     }
 
-    public function scrap_post($id)
+    public function scrap_post()
     {
-        for ($i = 1; $i < $id + 1; $i++) {
-            $url = 'https://www.codelist.cc/page/' . $i . '/';
+        ini_set('max_execution_time', 300000);
+        $get_url = Scrap::select('url', 'cate_id')->get();
+        foreach ($get_url as $result) {
+            $url = '' . $result->url . '';
             $content = $this->getContent($url);
             $html = HtmlDomParser::str_get_html($content);
-            $links = $html->find('.news-title h3 a');
-            foreach ($links as $result) {
-                $scrap = new Scrap;
-                $scrap->name = $result->title;
-                $scrap->url =  $result->href;
-                $scrap->status =  0;
-                $scrap->save();
+            $find_url = $html->find('.full-news a', 0)->plaintext;
+            $str = "https://codecanyon.net";
+            if (strpos($find_url, $str) == false) {
+                continue;
+            } else {
+                $content_cayon = $this->getContent($find_url);
+                $html_cayon = HtmlDomParser::str_get_html($content_cayon);
+                $find_images = $html_cayon->find('.item-preview a img');
+                foreach ($find_images as $value) {
+                    $path = str_replace('auto=compress%2Cformat&amp;q=80&amp;fit=crop&amp;crop=top&amp;max-h=8000&amp;max-w=590&amp;', 'auto=compress%2Cformat&q=80&fit=crop&crop=top&max-h=8000&max-w=590&', $value->src);
+                    $name = explode('/', $value->src);
+                    $file = UrlUploadedFile::createFromUrl($path);
+                    $file->storeAs('images', $name[4] . '.' . $file->extension());
+                }
             }
         }
     }
@@ -63,7 +72,7 @@ class PostController extends Controller
     {
         $scrap_post = Scrap::select('url')->get();
         foreach ($scrap_post->link as $result) {
-            $url = ''.$result.'';
+            $url = '' . $result . '';
             $content = $this->getContent($url);
             $html = HtmlDomParser::str_get_html($content);
             $links = $html->find('.full h1 b');

@@ -11,6 +11,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
+        "naxon/laravel-url-uploaded-file": "^1.0",
         "unbug4120/php-simple-html": "^1.0"
     },
     "require-dev": {

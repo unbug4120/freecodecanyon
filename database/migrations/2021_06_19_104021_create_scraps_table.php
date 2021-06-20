@@ -17,6 +17,7 @@ class CreateScrapsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('url');
+            $table->string('cate_id');
             $table->integer('status');
             $table->timestamps();
         });

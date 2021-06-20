@@ -22,5 +22,5 @@ Route::get('/register', function () {
     return view('register');
 });
 Route::get('/report', 'App\Http\Controllers\PostController@index');
-Route::get('/scraper/{id}', 'App\Http\Controllers\PostController@scrap_post');
-Route::get('/scraper', 'App\Http\Controllers\PostController@scrap');
+Route::get('/scrap_post', 'App\Http\Controllers\PostController@scrap_post');
+Route::get('/scrap', 'App\Http\Controllers\PostController@scrap');
