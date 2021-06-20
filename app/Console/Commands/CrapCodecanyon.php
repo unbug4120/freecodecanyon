@@ -50,10 +50,11 @@ class CrapCodecanyon extends Command
             $find_url = $html->find('.full-news a', 0)->plaintext;
             $str = "https://codecanyon.net";
             if (strpos($find_url, $str) !== false) {
-                echo 1;
                 $content_cayon = $this->getContent($find_url);
                 $html_cayon = HtmlDomParser::str_get_html($content_cayon);
                 $find_images = $html_cayon->find('.item-preview a img');
+                $find_meta = $html_cayon->find('meta');
+                dd($find_meta);
                 foreach ($find_images as $value) {
                     $path = str_replace('auto=compress%2Cformat&amp;q=80&amp;fit=crop&amp;crop=top&amp;max-h=8000&amp;max-w=590&amp;', 'auto=compress%2Cformat&q=80&fit=crop&crop=top&max-h=8000&max-w=590&', $value->src);
                     $name = explode('/', $value->src);

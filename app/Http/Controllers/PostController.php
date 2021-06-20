@@ -51,19 +51,21 @@ class PostController extends Controller
             $content = $this->getContent($url);
             $html = HtmlDomParser::str_get_html($content);
             $find_url = $html->find('.full-news a', 0)->plaintext;
+            $find_content = $html->find('.full-news', 0)->plaintext;
+            $get_content = explode("\r\n", $find_content);
             $str = "https://codecanyon.net";
-            if (strpos($find_url, $str) == false) {
-                continue;
-            } else {
+            if (strpos($find_url, $str) !== false) {
                 $content_cayon = $this->getContent($find_url);
                 $html_cayon = HtmlDomParser::str_get_html($content_cayon);
                 $find_images = $html_cayon->find('.item-preview a img');
-                foreach ($find_images as $value) {
-                    $path = str_replace('auto=compress%2Cformat&amp;q=80&amp;fit=crop&amp;crop=top&amp;max-h=8000&amp;max-w=590&amp;', 'auto=compress%2Cformat&q=80&fit=crop&crop=top&max-h=8000&max-w=590&', $value->src);
-                    $name = explode('/', $value->src);
-                    $file = UrlUploadedFile::createFromUrl($path);
-                    $file->storeAs('images', $name[4] . '.' . $file->extension());
-                }
+                $find_meta = $html_cayon->find('meta');
+                $path = str_replace('auto=compress%2Cformat&amp;q=80&amp;fit=crop&amp;crop=top&amp;max-h=8000&amp;max-w=590&amp;', 'auto=compress%2Cformat&q=80&fit=crop&crop=top&max-h=8000&max-w=590&', $find_images[0]->src);
+                $name = explode('/', $find_images[0]->src);
+                $file = UrlUploadedFile::createFromUrl($path);
+                $file->storeAs('images', $name[4] . '.' . $file->extension());
+                dd($get_content[2]);
+                dd($find_images[0]->src);
+                dd($find_meta[2]->content);
             }
         }
     }
