@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Scrap;
-use App\Models\Image;
+use App\Models\Post;
 use Naxon\UrlUploadedFile\UrlUploadedFile;
 use duongdat\phpSimple\HtmlDomParser;
 
@@ -42,26 +42,56 @@ class CrapCodecanyon extends Command
     public function handle()
     {
         ini_set('max_execution_time', 300000);
-        $get_url = Scrap::select('url', 'cate_id')->get();
+        $get_url = Scrap::select('id', 'name', 'canyon_url', 'url', 'cate_id')->where('status', 0)->get();
         foreach ($get_url as $result) {
-            $url = '' . $result->url . '';
-            $content = $this->getContent($url);
+            echo $result->canyon_url . "\n";
+            $content = $this->getContent($result->url);
             $html = HtmlDomParser::str_get_html($content);
-            $find_url = $html->find('.full-news a', 0)->plaintext;
-            $str = "https://codecanyon.net";
-            if (strpos($find_url, $str) !== false) {
-                $content_cayon = $this->getContent($find_url);
-                $html_cayon = HtmlDomParser::str_get_html($content_cayon);
+            $find_content = $html->find('.full-news', 0)->plaintext;
+            $get_content = explode("\r\n", $find_content);
+            $content_canyon = $this->getContent($result->canyon_url);
+            $html_cayon = HtmlDomParser::str_get_html($content_canyon);
+            $str_e = "You are being";
+            if (strpos($html_cayon, $str_e) !== false) {
+                preg_match_all('#\bhttps?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $html_cayon, $match);
+                $content_cayon_parse = $this->getContent($match[0][0]);
+                $html_cayon_parse = HtmlDomParser::str_get_html($content_cayon_parse);
+                $find_images = $html_cayon_parse->find('.item-preview a img');
+                $find_meta = $html_cayon_parse->find('meta');
+            } else {
                 $find_images = $html_cayon->find('.item-preview a img');
-                $find_meta = $html_cayon->find('meta');
-                dd($find_meta);
-                foreach ($find_images as $value) {
-                    $path = str_replace('auto=compress%2Cformat&amp;q=80&amp;fit=crop&amp;crop=top&amp;max-h=8000&amp;max-w=590&amp;', 'auto=compress%2Cformat&q=80&fit=crop&crop=top&max-h=8000&max-w=590&', $value->src);
-                    $name = explode('/', $value->src);
-                    $file = UrlUploadedFile::createFromUrl($path);
-                    $file->storeAs('images', $name[4] . '.' . $file->extension());
+                if (count($find_images) == 0) {
+                    $find_images = $html_cayon->find('.item-preview img');
                 }
+                $find_meta = $html_cayon->find('meta');
             }
+            dd($find_images[0]->src);
+            $path = str_replace('auto=compress%2Cformat&amp;q=80&amp;fit=crop&amp;crop=top&amp;max-h=8000&amp;max-w=590&amp;', 'auto=compress%2Cformat&q=80&fit=crop&crop=top&max-h=8000&max-w=590&', $find_images[0]->src);
+            $name = explode('/', $find_images[0]->src);
+            if ($name[2] == "s3.amazonaws.com") {
+                $file = UrlUploadedFile::createFromUrl($path);
+                $file->storeAs('images', $name[5] . '.' . $file->extension());
+            } else {
+                $file = UrlUploadedFile::createFromUrl($path);
+                $file->storeAs('images', $name[4] . '.' . $file->extension());
+            }
+            $post = new Post();
+            $post->title = $result->name;
+            $post->content = $get_content[2];
+            $post->description = $find_meta[2]->content;
+            $post->cate_id = $result->cate_id;
+            $get_slug = explode("/", $result->url);
+            $slug_cut = explode("/", $get_slug[4]);
+            $slug_cut_dot = explode(".", $slug_cut[0]);
+            $slug_cut_strike = explode("-", $slug_cut_dot[0]);
+            $slug = str_replace($slug_cut_strike[0] . '-', '', $slug_cut_dot[0]) . '-' . $result->id;
+            $post->slug = $slug;
+            $post->status = 1;
+            $post->thumb = 'images/' . $name[4] . '.' . $file->extension();
+            $post->save();
+            $scrap = Scrap::find($result->id);
+            $scrap->status = 1;
+            $scrap->save();
         }
     }
     private function getContent($url)
@@ -70,7 +100,7 @@ class CrapCodecanyon extends Command
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.A.B.C Safari/525.13");
+        curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36");
         $data = curl_exec($ch);
         curl_close($ch);
         return $data;

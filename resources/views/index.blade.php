@@ -12,91 +12,40 @@
         <div class="row mt-5 mt-lg-2">
             <div class="col-md-9">
                 <div class="row">
+                    @foreach($post as $result)
                     <div class="col-6 mb-3">
                         <div class="card-2 shadow-sm">
-                            <img src="https://www.codelist.cc/uploads/posts/2021-06/1624090404_fuodz.png" class="img-responsive center-block">
+                            <img src="/storage/{{$result->thumb}}" class="img-responsive center-block">
                             <div class="news-title">
-                                <div class="new-title"><a href="https://www.codelist.cc/mobile/244041-fuodz-v123-grocery-food-pharmacy-courier-delivery-app-backend-driver-amp-vendor-app.html" title="Fuodz v1.2.3 – Grocery, Food, Pharmacy Courier Delivery App + Backend + Driver &amp; Vendor app">Fuodz v1.2.3 – Grocery, Food, Pharmacy Courier Delivery App + Backend + Driver &amp; Vendor app</a></div>
+                                <div class="new-title"><a href="/{{$result->slug}}" title="{{$result->title}}">{{$result->title}}</a></div>
                             </div>
                             <div class="card-body-2">
-                                <p>This is a wider card-2 with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                <p>{{$result->description}}</p>
                             </div>
                             <div class="short-bot">
                                 Upload by <b style="color : red">Admin</b>
                                 <span class="pull-right">
-                                    <i class="glyphicon glyphicon-calendar"></i> <a href="https://www.themelock.com/2021/06/18/">June 18, 2021</a>
+                                    <i class="glyphicon glyphicon-calendar"></i> {{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $result->created_at)->format('m/d/Y')}}
                                 </span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 mb-3">
-                        <div class="card-2 shadow-sm">
-                            <img src="https://www.codelist.cc/uploads/posts/2021-06/1624090404_fuodz.png" class="img-responsive center-block">
-                            <div class="news-title">
-                                <div class="new-title"><a href="https://www.codelist.cc/mobile/244041-fuodz-v123-grocery-food-pharmacy-courier-delivery-app-backend-driver-amp-vendor-app.html" title="Fuodz v1.2.3 – Grocery, Food, Pharmacy Courier Delivery App + Backend + Driver &amp; Vendor app">Fuodz v1.2.3 – Grocery, Food, Pharmacy Courier Delivery App + Backend + Driver &amp; Vendor app</a></div>
-                            </div>
-                            <div class="card-body-2">
-                                <p>This is a wider card-2 with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            </div>
-                            <div class="short-bot">
-                                Upload by <b style="color : red">Admin</b>
-                                <span class="pull-right">
-                                    <i class="glyphicon glyphicon-calendar"></i> <a href="https://www.themelock.com/2021/06/18/">June 18, 2021</a>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-6 mb-3">
-                        <div class="card-2 shadow-sm">
-                            <img src="https://www.codelist.cc/uploads/posts/2021-06/1624090404_fuodz.png" class="img-responsive center-block">
-                            <div class="news-title">
-                                <div class="new-title"><a href="https://www.codelist.cc/mobile/244041-fuodz-v123-grocery-food-pharmacy-courier-delivery-app-backend-driver-amp-vendor-app.html" title="Fuodz v1.2.3 – Grocery, Food, Pharmacy Courier Delivery App + Backend + Driver &amp; Vendor app">Fuodz v1.2.3 – Grocery, Food, Pharmacy Courier Delivery App + Backend + Driver &amp; Vendor app</a></div>
-                            </div>
-                            <div class="card-body-2">
-                                <p>This is a wider card-2 with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            </div>
-                            <div class="short-bot">
-                                Upload by <b style="color : red">Admin</b>
-                                <span class="pull-right">
-                                    <i class="glyphicon glyphicon-calendar"></i> <a href="https://www.themelock.com/2021/06/18/">June 18, 2021</a>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-6 mb-3">
-                        <div class="card-2 shadow-sm">
-                            <img src="https://www.codelist.cc/uploads/posts/2021-06/1624090404_fuodz.png" class="img-responsive center-block">
-                            <div class="news-title">
-                                <div class="new-title"><a href="https://www.codelist.cc/mobile/244041-fuodz-v123-grocery-food-pharmacy-courier-delivery-app-backend-driver-amp-vendor-app.html" title="Fuodz v1.2.3 – Grocery, Food, Pharmacy Courier Delivery App + Backend + Driver &amp; Vendor app">Fuodz v1.2.3 – Grocery, Food, Pharmacy Courier Delivery App + Backend + Driver &amp; Vendor app</a></div>
-                            </div>
-                            <div class="card-body-2">
-                                <p>This is a wider card-2 with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            </div>
-                            <div class="short-bot">
-                                Upload by <b style="color : red">Admin</b>
-                                <span class="pull-right">
-                                    <i class="glyphicon glyphicon-calendar"></i> <a href="https://www.themelock.com/2021/06/18/">June 18, 2021</a>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="list-group">
                     <a href="#" class="list-group-item list-group-item-action">
-                        <i class="fa fa-camera"></i> PHP SCRIPT <span class="badge badge-pill badge-primary float-right">145</span>
+                        <i class="fa fa-camera"></i> PHP SCRIPT <span class="badge bg-secondary badge-pill badge-primary float-right">{{$count_script}}</span>
                     </a>
                     <a href="#" class="list-group-item list-group-item-action">
-                        <i class="fa fa-music"></i> APP/MOBILE <span class="badge badge-pill badge-primary float-right">50</span>
+                        <i class="fa fa-music"></i> APP/MOBILE <span class="badge bg-secondary badge-pill badge-primary float-right">{{$count_app}}</span>
                     </a>
                     <a href="#" class="list-group-item list-group-item-action">
-                        <i class="fa fa-film"></i> PLUGIN/ADDONS <span class="badge badge-pill badge-primary float-right">8</span>
+                        <i class="fa fa-film"></i> PLUGIN/ADDONS <span class="badge bg-secondary badge-pill badge-primary float-right">{{$count_plugin}}</span>
                     </a>
                     <a href="#" class="list-group-item list-group-item-action">
-                        <i class="fa fa-film"></i> NULLED CMS <span class="badge badge-pill badge-primary float-right">8</span>
+                        <i class="fa fa-film"></i> NULLED CMS <span class="badge bg-secondary badge-pill badge-primary float-right">{{$count_cms}}</span>
                     </a>
                 </div>
             </div>

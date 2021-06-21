@@ -15,6 +15,12 @@
   position: relative;
 }
 
+.badge-pill {
+  padding-right: .6em;
+  padding-left: .6em;
+  border-radius: 0rem;
+}
+
 /* Style on hover */
 .image-uploader.drag-over {
   background-color: #f3f3f3;
@@ -7874,8 +7880,14 @@ a:hover,
 }
 .list-group-item {
   font-weight: 600;
-  font-size: 16px;
-  font-family: 'Mulish', sans-serif;
+  font-size: 12px;
+  font-family: "Windows 95", sans-serif;
+  position: relative;
+  display: block;
+  padding: .75rem 1.25rem;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px dashed rgba(0,0,0,.125);
 }
 .new-title a {
   font-weight: 600;

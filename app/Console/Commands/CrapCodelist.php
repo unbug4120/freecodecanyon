@@ -45,7 +45,7 @@ class CrapCodelist extends Command
         $html = HtmlDomParser::str_get_html($content);
         $find_id = $html->find('.pagination li a');
         $id = explode("/", $find_id[9]->href);
-        for ($i = 1; $i < $id[4] + 1; $i++) {
+        for ($i = $id[4]; $i > 0; $i--) {
             echo 'https://www.codelist.cc/page/' . $i . '/' . "\n";
             $url = 'https://www.codelist.cc/page/' . $i . '/';
             $content = $this->getContent($url);
@@ -64,16 +64,23 @@ class CrapCodelist extends Command
                 } else {
                     $cate_id = 4;
                 }
-                $scrap = new Scrap;
-                $scrap->name = $result->title;
-                $scrap->url =  $result->href;
-                $scrap->cate_id = $cate_id;
-                $scrap->status =  0;
-                $get_url = Scrap::select('url')->where('url', $result->href)->get();
-                if (count($get_url) > 0) {
-                    continue;
-                } else {
-                    $scrap->save();
+                $content = $this->getContent($result->href);
+                $html = HtmlDomParser::str_get_html($content);
+                $find_url = $html->find('.full-news a', 0)->plaintext;
+                $str = "https://codecanyon.net";
+                if (strpos($find_url, $str) !== false) {
+                    $scrap = new Scrap;
+                    $scrap->name = $result->title;
+                    $scrap->canyon_url =  $find_url;
+                    $scrap->url =  $result->href;
+                    $scrap->cate_id = $cate_id;
+                    $scrap->status =  0;
+                    $get_url = Scrap::select('url')->where('url', $result->href)->get();
+                    if (count($get_url) > 0) {
+                        continue;
+                    } else {
+                        $scrap->save();
+                    }
                 }
             }
         }
