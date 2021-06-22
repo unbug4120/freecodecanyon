@@ -54,6 +54,9 @@ class CrapCodelist extends Command
             $cate = $html->find('.categ a');
             $category = explode("/", $cate[1]->href);
             foreach ($links as $key => $result) {
+                if(!isset($cate[$key])){
+                    continue;
+                }
                 $category = explode("/", $cate[$key]->href);
                 if ($category[3] == "plugins") {
                     $cate_id = 3;
@@ -67,7 +70,7 @@ class CrapCodelist extends Command
                 $content = $this->getContent($result->href);
                 $html = HtmlDomParser::str_get_html($content);
                 $find_url = $html->find('.full-news a', 0)->plaintext;
-                $str = "https://codecanyon.net";
+                $str = "codecanyon.net";
                 if (strpos($find_url, $str) !== false) {
                     $scrap = new Scrap;
                     $scrap->name = $result->title;

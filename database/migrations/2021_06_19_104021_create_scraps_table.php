@@ -15,9 +15,9 @@ class CreateScrapsTable extends Migration
     {
         Schema::create('scraps', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('url');
-            $table->string('canyon_url');
+            $table->text('name');
+            $table->text('url');
+            $table->text('canyon_url');
             $table->string('cate_id');
             $table->integer('status');
             $table->timestamps();

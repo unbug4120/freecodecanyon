@@ -18,8 +18,10 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->text('content')->nullable();
             $table->string('slug')->nullable();
-            $table->string('thumb')->nullable();
+            $table->text('thumb')->nullable();
             $table->text('description')->nullable();
+            $table->text('demo')->nullable();
+            $table->text('download_content')->nullable();
             $table->string('status')->nullable();
             $table->string('cate_id')->nullable();
             $table->timestamps();

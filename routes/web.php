@@ -21,6 +21,6 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('register');
 });
-Route::get('/report', 'App\Http\Controllers\PostController@index');
-Route::get('/scrap_post', 'App\Http\Controllers\PostController@scrap_post');
-Route::get('/scrap', 'App\Http\Controllers\PostController@scrap');
+Route::get('/{category}/{url}/{id}', 'App\Http\Controllers\PostController@index');
+Route::get('/category/{category}', 'App\Http\Controllers\CategoryController@index');
+Route::get('/search', 'App\Http\Controllers\SearchController@index')->name('search');

@@ -1,10 +1,16 @@
 @extends('layouts.app')
-@section('title', 'Trang chủ')
+@section('title', $categories->name)
 @section('content')
 <section class="section-sm">
     <div class="container">
         <div class="row mt-5 mt-lg-2">
             <div class="col-md-9">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{$categories->name}}</li>
+                    </ol>
+                </nav>
                 <div class="row">
                     @foreach($posts as $result)
                     <div class="col-6 mb-3">

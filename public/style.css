@@ -6885,10 +6885,12 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: "Windows 95", sans-serif;
   font-weight: 400;
 }
-
+.h1, h1 {
+  font-size: 2rem;
+  font-weight: 600;
+}
 body {
   font-family: 'VT323', monospace;
   font-size: 14px;
@@ -6933,6 +6935,30 @@ a:hover,
 
 .description {
   font-size: 0.875rem;
+}
+
+.list-group-item.active {
+  z-index: 2;
+  color: #fff;
+  text-align: center;
+  background-color: #008081 !important;
+  border-color: #007bff;
+}
+
+button {
+  font-family: "Windows 95";
+  border-radius: 0;
+}
+
+pre {
+  border-left: 1px solid #cccccc;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+}
+
+.h3, h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .heading {
@@ -7879,7 +7905,6 @@ a:hover,
   font-family: 'Mulish', sans-serif;
 }
 .list-group-item {
-  font-weight: 600;
   font-size: 12px;
   font-family: "Windows 95", sans-serif;
   position: relative;
@@ -7891,4 +7916,20 @@ a:hover,
 }
 .new-title a {
   font-weight: 600;
+}
+.page-item.active .page-link {
+  z-index: 1;
+  color: #fff;
+  background-color: #008081;
+  border-color: #008081;
+}
+.page-link {
+  position: relative;
+  display: block;
+  padding: .5rem .75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: #008081;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
 }
