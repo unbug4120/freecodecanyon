@@ -1,5 +1,6 @@
 @extends('layouts.app')
-@section('title', $categories->name)
+@section('title', $categories->name.' | Freecodecanyon.net')
+@section('description', 'Download free nulled scripts, Premium Plugins, Codecanyon Scripts')
 @section('content')
 <section class="section-sm">
     <div class="container">

@@ -25,7 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('Codelist:Crap')->hourly();
+        $schedule->command('Codecanyon:Crap')->hourlyAt(30);
     }
 
     /**

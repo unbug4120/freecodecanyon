@@ -6947,11 +6947,14 @@ a:hover,
 
 button {
   font-family: "Windows 95";
+  font-size: 12px;
+  padding-bottom: 5px;
   border-radius: 0;
 }
 
 pre {
   border-left: 1px solid #cccccc;
+  background-color: #f1f1f1;
   margin: 1.5em 10px;
   padding: 0.5em 10px;
 }

@@ -15,6 +15,7 @@ class CategoryController extends Controller
         $posts = DB::table('posts')
         ->selectRaw('posts.title , posts.created_at, posts.slug, posts.thumb, posts.description, categories.slug AS cate_slug')
         ->join('categories', 'posts.cate_id', '=', 'categories.id')
+        ->where('categories.id', $categories->id)
         ->orderByDesc('posts.id')
         ->paginate(12);
         $count_script = Post::select('*')->where('cate_id', 1)->count();

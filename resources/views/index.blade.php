@@ -1,5 +1,6 @@
 @extends('layouts.app')
-@section('title', 'Trang chủ')
+@section('title', 'Premium Scripts, Plugins & Mobile, Nulled CMS | Freecodecanyon.net')
+@section('description', 'Premium Scripts, Plugins & Mobile, Nulled CMS')
 @section('content')
 <section class="section-sm">
     <div class="container">

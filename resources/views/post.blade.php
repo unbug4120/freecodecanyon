@@ -20,11 +20,11 @@
                 <div class="mt-5 mb-5 mt-md-0">
                     <img src="/storage/{{$posts->thumb}}" alt="{{$posts->title}}">
                     <p class="mt-5 mb-5">{{$posts->content}}</p>
-                    <h3>Demo</h3>
+                    <h3><u>Demo</u></h3>
                     <p><a href="{{$posts->demo}}">{{$posts->demo}}</a></p>
-                    <h3>Download</h3>
+                    <h3><u>Download</u></h3>
                     <pre>{{$posts->download_content}}</pre>
-                    <h3>Related articles</h3>
+                    <h3><u>Related articles</u></h3>
                     @foreach($posts_related as $result)
                     <li><a href="/{{$result->cate_slug}}/{{$result->slug}}" title="{{$result->title}}">{{$result->title}}</a></li>
                     @endforeach

@@ -83,10 +83,6 @@ class CrapCodecanyon extends Command
                 continue;
             }
             $url_cut = explode('/', $result->canyon_url);
-            $path = str_replace('amp;', '', $find_images[0]->src);
-            $file = UrlUploadedFile::createFromUrl($path);
-            $file->storeAs('images', $url_cut[5] . '.' . $file->extension());
-            $images = 'images/' . $url_cut[5] . '.' . $file->extension();
             $post = new Post();
             $post->title = $result->name;
             $post->content = $get_content[2];
@@ -108,6 +104,10 @@ class CrapCodecanyon extends Command
             } else {
                 $slug = str_replace($slug_cut_strike[0] . '-', '', $slug_cut_dot[0]) . '/1';
             }
+            $path = str_replace('amp;', '', $find_images[0]->src);
+            $file = UrlUploadedFile::createFromUrl($path);
+            $file->storeAs('images/thumb/', str_replace($slug_cut_strike[0] . '-', '', $slug_cut_dot[0]) . '.' . $file->extension());
+            $images = 'images/thumb/' . str_replace($slug_cut_strike[0] . '-', '', $slug_cut_dot[0]) . '.' . $file->extension();
             $post->slug = $slug;
             $post->status = 1;
             $post->thumb = $images;
