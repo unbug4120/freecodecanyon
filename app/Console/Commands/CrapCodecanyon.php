@@ -106,7 +106,7 @@ class CrapCodecanyon extends Command
             $name = explode('/', $find_images[0]->src);
             }
             if (isset($name[5])) {
-                if ($name[5] == "codecanyon.jpg" || $name[5] == "Inline-Preview.png" || $name[5] == "codecanyon.png") {
+                if ($name[5] == "codecanyon.jpg" || $name[5] == "Inline-Preview.png" || $name[5] == "codecanyon.png" || $name[5] == "gofreshtopbanner590.jpg") {
                     $scrap = Scrap::find($result->id);
                     $scrap->status = 1;
                     $scrap->save();
