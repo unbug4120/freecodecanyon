@@ -48,7 +48,14 @@ class CrapCodecanyon extends Command
             $content = $this->getContent($result->url);
             $html = HtmlDomParser::str_get_html($content);
             $find_content = $html->find('.full-news', 0)->plaintext;
-            $download_content = $html->find('.quote', 0)->plaintext;
+            if ($html->find('.quote', 0)) {
+                $download_content = $html->find('.quote', 0)->plaintext;
+            } else {
+                $scrap = Scrap::find($result->id);
+                $scrap->status = 1;
+                $scrap->save();
+                continue;
+            }
             $get_content = explode("\r\n", $find_content);
             $url = explode('?', $result->canyon_url);
             if (count($url) == 1) {
@@ -63,26 +70,49 @@ class CrapCodecanyon extends Command
                 preg_match_all('#\bhttps?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $html_cayon, $match);
                 $content_cayon_parse = $this->getContent($match[0][0]);
                 $html_cayon_parse = HtmlDomParser::str_get_html($content_cayon_parse);
-                $find_images = $html_cayon_parse->find('.item-preview a img');
-                if (count($find_images) == 0) {
-                    $find_images = $html_cayon_parse->find('.item-preview img');
+                if ($html_cayon_parse) {
+                    $find_images = $html_cayon_parse->find('.item-preview a img');
+                    if (count($find_images) == 0) {
+                        $find_images = $html_cayon_parse->find('.item-preview img');
+                    }
+                } else {
+                    $scrap = Scrap::find($result->id);
+                    $scrap->status = 1;
+                    $scrap->save();
+                    continue;
                 }
                 $find_meta = $html_cayon_parse->find('meta');
             } else {
-                $find_images = $html_cayon->find('.item-preview a img');
-                if (count($find_images) == 0) {
-                    $find_images = $html_cayon->find('.item-preview img');
+                if ($html_cayon) {
+                    $find_images = $html_cayon->find('.item-preview a img');
+                    if (count($find_images) == 0) {
+                        $find_images = $html_cayon->find('.item-preview img');
+                    }
+                } else {
+                    $scrap = Scrap::find($result->id);
+                    $scrap->status = 1;
+                    $scrap->save();
+                    continue;
                 }
                 $find_meta = $html_cayon->find('meta');
             }
-            if (count($find_images) == 0) {
-                continue;
+            if(!isset($find_images[0])){
+            $scrap = Scrap::find($result->id);
+                    $scrap->status = 1;
+                    $scrap->save();
+                    continue;
             }
+            else{
             $name = explode('/', $find_images[0]->src);
-            if ($name[5] == "codecanyon.jpg" || $name[5] == "Inline-Preview.png") {
-                continue;
             }
-            $url_cut = explode('/', $result->canyon_url);
+            if (isset($name[5])) {
+                if ($name[5] == "codecanyon.jpg" || $name[5] == "Inline-Preview.png" || $name[5] == "codecanyon.png") {
+                    $scrap = Scrap::find($result->id);
+                    $scrap->status = 1;
+                    $scrap->save();
+                    continue;
+                }
+            }
             $post = new Post();
             $post->title = $result->name;
             $post->content = $get_content[2];

@@ -3,6 +3,7 @@
 @section('title_post', $posts->title)
 @section('description', $posts->description)
 @section('thumb', $posts->thumb)
+@section('updated_time', str_replace('+00:00', 'Z', gmdate('c', strtotime($posts->created_at))))
 @section('content')
 <section class="section section-lg overflow-hidden z-2">
     <div class="container">
